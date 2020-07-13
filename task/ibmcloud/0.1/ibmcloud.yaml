@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: ibmcloud
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: cloud
+spec:
+  description: >-
+    This task performs operations on IBM Cloud using the ibmcloud.
+
+  params:
+  - name: ibmcloud-image
+    description: IBM Cloud CLI container image to run this task
+    default: ibmcom/ibm-cloud-developer-tools-amd64:latest
+  - name: ARGS
+    type: array
+    description: IBM Cloud CLI arguments to run
+  steps:
+  - name: ibmcloud
+    image: "$(params.ibmcloud-image)"
+    command: ["ibmcloud"]
+    args: ["$(params.ARGS)"]
